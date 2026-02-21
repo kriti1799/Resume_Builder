@@ -1,11 +1,19 @@
 # app/main.py
-from fastapi import FastAPI, UploadFile, File, Form, HTTPException
+from fastapi import FastAPI, UploadFile, File, Form, HTTPException, Depends
 from pydantic import BaseModel
 from app.agent import resume_agent_app # Import your compiled LangGraph workflow
 from app.utils import extract_text_from_file
 import json
+from sqlalchemy.orm import Session
+from app import models
+from app.database import get_db, engine
 
+models.Base.metadata.create_all(bind=engine)
 app = FastAPI(title="Resume Parsing Agent API")
+
+class LoginRequest(BaseModel):
+    name: str
+    email: str
 
 # --- ENDPOINT 1: Initial Upload & Parse ---
 @app.post("/process-documents/")
@@ -19,15 +27,6 @@ async def process_documents(
 
     if not resume_text or "Error" in resume_text or "Unsupported" in resume_text:
         raise HTTPException(status_code=400, detail=f"Could not parse file: {resume_text}")
-    
-    thread_config = {"configurable": {"thread_id": email}}
-    initial_state = {
-        "resume_text": resume_text,
-        "chat_history": [],
-        "extracted_data": None,
-        "pending_questions": []
-    }
-
     
     # We use the user's email as the thread_id to track their specific session
     thread_config = {"configurable": {"thread_id": email}}
@@ -50,7 +49,10 @@ async def process_documents(
             "status": "waiting_for_user",
             "message": "The agent needs more information.",
             "questions": state.values.get("pending_questions", []),
-            "thread_id": email 
+            "remaining_questions": state.values.get("remaining_questions", "?"),
+            "parsed_data": state.values.get("extracted_data", {}),
+            "focus_field": state.values.get("current_focus_field", "Candidate Profile"),
+            "thread_id": email
         }
 
     extracted_json = state.values.get("extracted_data") # Or state.values.get for the first endpoint
@@ -71,7 +73,7 @@ class UserAnswerPayload(BaseModel):
 
 # --- ENDPOINT 2: Resume with Human Input ---
 @app.post("/answer-questions/")
-async def answer_questions(payload: UserAnswerPayload):
+async def answer_questions(payload: UserAnswerPayload, db: Session = Depends(get_db)):
     thread_config = {"configurable": {"thread_id": payload.thread_id}}
     state = resume_agent_app.get_state(thread_config)
     
@@ -81,6 +83,13 @@ async def answer_questions(payload: UserAnswerPayload):
     
     user_input_clean = payload.answers.strip().lower()
     if user_input_clean in ["stop", "quit", "exit", "skip", "enough"]:
+        extracted_json = state.values.get("extracted_data")
+        
+        # --- NEW: Save to Database on Stop ---
+        user = db.query(models.CandidateProfile).filter(models.CandidateProfile.email == payload.thread_id).first()
+        if user:
+            user.parsed_data = extracted_json
+            db.commit()
         return {
             "status": "completed",
             "message": "Interview stopped by user.",
@@ -88,10 +97,11 @@ async def answer_questions(payload: UserAnswerPayload):
         }
         
     questions_asked = state.values.get("pending_questions", [])
+    last_question = questions_asked[0] if questions_asked else ""
     
     # Append the Q&A to the LangGraph chat history state
     new_chat_history = state.values["chat_history"] + [
-        {"role": "assistant", "content": str(questions_asked)},
+        {"role": "assistant", "content": last_question},
         {"role": "user", "content": payload.answers}
     ]
     
@@ -111,10 +121,17 @@ async def answer_questions(payload: UserAnswerPayload):
             "status": "waiting_for_user",
             "message": "Follow-up questions from the agent.",
             "questions": final_state.values.get("pending_questions", []),
+            "remaining_questions": final_state.values.get("remaining_questions", "?"),
+            "focus_field": final_state.values.get("current_focus_field", "Candidate Profile"),
             "thread_id": payload.thread_id
         }
     
     extracted_json = final_state.values.get("extracted_data") # Or state.values.get for the first endpoint
+
+    user = db.query(models.CandidateProfile).filter(models.CandidateProfile.email == payload.thread_id).first()
+    if user:
+        user.parsed_data = extracted_json
+        db.commit()
     
     # --- NEW: Save the JSON to a file for your teammates ---
     with open("master_candidate_profile.json", "w") as f:
@@ -124,4 +141,32 @@ async def answer_questions(payload: UserAnswerPayload):
     return {
         "status": "completed",
         "parsed_data": final_state.values.get("extracted_data")
+    }
+
+
+@app.post("/auth/")
+def authenticate_user(req: LoginRequest, db: Session = Depends(get_db)):
+    # 1. Check if the user already exists in the database
+    profile = db.query(models.CandidateProfile).filter(models.CandidateProfile.email == req.email).first()
+    
+    if profile:
+        # Returning user! Send back their saved JSON.
+        return {
+            "status": "existing_user",
+            "message": f"Welcome back, {profile.name}!",
+            "parsed_data": profile.parsed_data
+        }
+    
+    # 2. New user! Create a blank profile in the database.
+    new_profile = models.CandidateProfile(
+        name=req.name, 
+        email=req.email, 
+        parsed_data={}
+    )
+    db.add(new_profile)
+    db.commit()
+    
+    return {
+        "status": "new_user",
+        "message": "Account created! Please upload your resume."
     }

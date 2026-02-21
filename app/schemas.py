@@ -76,11 +76,22 @@ class ExtractionResult(BaseModel):
     profile: CandidateProfile = Field(
         description="The structured candidate profile extracted so far."
     )
-    # CHANGE THIS: Force it to be a single string instead of a list
-    next_question: Optional[str] = Field(
+    
+    assistant_message: Optional[str] = Field(
         default=None,
-        description="The SINGLE most important question to ask the candidate next to fill a critical gap. Null if the profile is fully complete."
+        description="A SHORT conversational reply ending with EXACTLY ONE question. NEVER ask multiple questions at once."
     )
+
+    remaining_questions_count: int = Field(
+        default=0,
+        description="The estimated number of questions still needed to complete the profile. 0 if complete."
+    )
+
+    current_focus_field: Optional[str] = Field(
+        default="Summary",
+        description="The EXACT top-level JSON key you are currently asking about (e.g., 'work_experience', 'education', 'projects', 'skills')."
+    )
+    
     is_complete: bool = Field(
         description="Set to True ONLY if all mandatory fields, metrics, and context are fully populated."
     )

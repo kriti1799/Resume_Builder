@@ -1,0 +1,176 @@
+{
+    "personal_info": {
+        "name": "Nikolaos Kakonas",
+        "email": "kakonas.nikos@gmail.com",
+        "phone": "(404) 518-3128",
+        "location": "Atlanta, GA",
+        "linkedin": "nikoskakonas/linkedin",
+        "github": null,
+        "portfolio": "Portfolio"
+    },
+    "education": [
+        {
+            "institution": "Georgia Institute of Technology",
+            "location": "Atlanta, Georgia",
+            "degree": "Master of Science",
+            "field_of_study": "Analytics",
+            "start_date": "Aug 2025",
+            "end_date": "Dec 2026",
+            "gpa": "3.8",
+            "coursework": [
+                "Machine Learning",
+                "Deep Learning",
+                "Conversational AI",
+                "Data and Visual Analytics"
+            ]
+        },
+        {
+            "institution": "Athens University of Economics and Business",
+            "location": "Athens, Greece",
+            "degree": "Bachelor of Science",
+            "field_of_study": "Management Science and Technology",
+            "start_date": "Oct 2019",
+            "end_date": "Jun 2023",
+            "gpa": "8.51/10",
+            "coursework": [
+                "Applied Machine Learning",
+                "Business Intelligence and Big Data Analytics",
+                "Database Systems",
+                "Social Network Analysis"
+            ]
+        }
+    ],
+    "work_experience": [
+        {
+            "company": "Georgia Institute of Technology",
+            "location": null,
+            "role": "Graduate Teaching Assistant",
+            "start_date": "Jan 2026",
+            "end_date": "Present",
+            "bullets": [
+                "Supported graduate-level instruction through grading, office hours, and student mentoring."
+            ],
+            "skills_used": [],
+            "metrics": [],
+            "experience_context": null
+        },
+        {
+            "company": "Ernst & Young (EY)",
+            "location": null,
+            "role": "Technology Consultant \u2013 Data Science",
+            "start_date": "Jun 2023",
+            "end_date": "Jul 2025",
+            "bullets": [
+                "Developed a machine learning\u2013driven analytics system in Python using LLMs, retrieval-augmented generation (RAG), and feature engineering that enabled marketing and business teams to analyze customer behavior, feature usage, and performance trends across 50+ datasets; deployed with FastAPI and Kubernetes, reducing analytics workload by 60% and saving $150K annually.",
+                "Created a Python AI tool using LLMs that converted 200+ business requirement documents into production-ready SQL queries across 30+ database tables, saving 15 developer hours weekly and $75K annually while reducing query errors by 95%.",
+                "Deployed an AI-driven robot agent using Python-Java integration and LLMs that autonomously navigated venues to guide 500+ attendees across 3 EY corporate events, answering questions about agendas and directions, reducing staff workload by 30%.",
+                "Benchmarked Google's Meridian model against internal Bayesian Marketing Mix Models, identifying location-aware geo-modeling as a key driver, and implemented insights to improve model accuracy by 15% and optimize $2M+ in marketing spend.",
+                "Delivered end-to-end SQL data mart automation consolidating 20+ databases and 100+ Excel files via SSIS, SQL procedures, and scheduled jobs into a unified analytics platform serving 50+ business users, cutting manual reporting by 80%, eliminating 30+ recurring ad-hoc reports weekly, and saving $200K annually in analyst time.",
+                "Presented data mart architecture and ETL pipelines to stakeholders, securing $500K in project approval."
+            ],
+            "skills_used": [
+                "Python",
+                "LLMs",
+                "RAG",
+                "FastAPI",
+                "Kubernetes",
+                "SQL",
+                "SSIS"
+            ],
+            "metrics": [
+                "Reduced analytics workload by 60%",
+                "Saved $150K annually",
+                "Saved 15 developer hours weekly",
+                "Reduced query errors by 95%",
+                "Reduced staff workload by 30%",
+                "Improved model accuracy by 15%",
+                "Optimized $2M+ in marketing spend",
+                "Cut manual reporting by 80%",
+                "Saved $200K annually in analyst time"
+            ],
+            "experience_context": "Translated technical solutions to business users and presented work."
+        },
+        {
+            "company": "Ernst & Young (EY)",
+            "location": null,
+            "role": "Technology Consultant \u2013 Data Science Intern",
+            "start_date": "Mar 2023",
+            "end_date": "May 2023",
+            "bullets": [
+                "Applied graph neural networks in Python with graph-based feature engineering to transactional data, evaluating model performance to improve fraud detection accuracy by 10% and supporting 3 new banking contracts worth $500K+."
+            ],
+            "skills_used": [
+                "Python",
+                "Graph Neural Networks"
+            ],
+            "metrics": [
+                "Improved fraud detection accuracy by 10%",
+                "Supported 3 new banking contracts worth $500K+"
+            ],
+            "experience_context": null
+        }
+    ],
+    "projects": [
+        {
+            "title": "Customer Churn Prediction & Segmentation",
+            "description": "Built churn prediction and customer segmentation models in Python using Gradient Boosting and Logistic Regression on 100K+ customer records with 50+ behavioral features, identifying high-risk customers and segmenting user base into 2 distinct personas. Achieved 0.92 ROC-AUC, enabling retention strategies projected to reduce churn by 20% and save $500K+ annually.",
+            "link": "Link"
+        },
+        {
+            "title": "U.S. City Neighborhood Archetypes (Clustering & Forecasting)",
+            "description": "Built large-scale data pipelines and clustering models using PySpark, Python, and Pandas to standardize over 50 years of U.S. census and housing data exceeding 10 GB and identify 8 urban neighborhood archetypes across major U.S. cities. Delivered interactive map-based dashboards showing neighborhood changes from 1970 to 2070, including model-driven forecasts, enabling intuitive exploration of long-term urban trends.",
+            "link": "Link"
+        }
+    ],
+    "skills": {
+        "technical": [
+            "Python",
+            "SQL",
+            "PySpark",
+            "R",
+            "Java",
+            "JavaScript",
+            "HTML",
+            "CSS",
+            "MATLAB",
+            "Excel"
+        ],
+        "tools": [
+            "Pandas",
+            "Numpy",
+            "Matplotlib",
+            "Scikit-Learn",
+            "PyTorch",
+            "TensorFlow",
+            "Keras",
+            "Autogen",
+            "FastAPI",
+            "Kubernetes",
+            "AWS",
+            "Azure",
+            "Databricks",
+            "Google Cloud",
+            "Docker",
+            "Linux",
+            "Git",
+            "GitHub",
+            "Power BI",
+            "Tableau"
+        ],
+        "soft_skills": []
+    },
+    "publications": [],
+    "certifications": [
+        {
+            "name": "Managing Machine Learning Projects with Google Cloud",
+            "issuer": "Google",
+            "date": null
+        },
+        {
+            "name": "Unix Tools",
+            "issuer": "Delft University",
+            "date": null
+        }
+    ],
+    "application_history": []
+}
