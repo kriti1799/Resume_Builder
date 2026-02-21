@@ -1,0 +1,165 @@
+{
+  "header": {
+    "name": "Kriti Agrawal",
+    "location": "Atlanta, Georgia",
+    "email": "kagrawal74@gatech.edu",
+    "phone": "(404)784-0915",
+    "linkedin": "linkedin.com/in/kriti1799/"
+  },
+  "summary": "Detail-oriented and innovative data science analyst with extensive experience in data-driven solutions and a strong foundation in programming and data structures. Currently pursuing a Masters in Computational Data Analytics, I bring a robust set of skills including Python, SQL, and machine learning techniques, refined through impactful projects and internships. Seeking a rewarding internship at Netflix where I can leverage my expertise in designing scalable data solutions, building robust data pipelines, and collaborating with cross-functional teams to drive business insights.",
+  "education": [
+    {
+      "institution": "Georgia Institute of Technology",
+      "location": "Atlanta, Georgia",
+      "degree": "Masters of Science",
+      "field_of_study": "Computational Data Analytics",
+      "start_date": "Aug 2025",
+      "end_date": "Dec 2026",
+      "gpa": null,
+      "coursework": [
+        "Machine Learning",
+        "Deep Reinforcement Learning",
+        "Graphical Models in ML",
+        "Pricing Analytics and Revenue Management",
+        "Regression Analysis",
+        "Data Visualization",
+        "Analytics Modeling",
+        "Data Analysis for Business"
+      ]
+    },
+    {
+      "institution": "Birla Institute of Technology & Science, Pilani",
+      "location": "Goa, India",
+      "degree": "Masters of Science",
+      "field_of_study": "Mathematics",
+      "start_date": "Aug 2018",
+      "end_date": "May 2023",
+      "gpa": null,
+      "coursework": [
+        "Probability and Statistics",
+        "OOP",
+        "Computer Programming",
+        "Linear Algebra",
+        "Graphs & Networks",
+        "Data Science Methodology",
+        "Deep Learning",
+        "Introduction to LLMs",
+        "Linear Optimization",
+        "Number Theory",
+        "Mathematical Modelling"
+      ]
+    }
+  ],
+  "experience": [
+    {
+      "company": "Accenture Strategy and Consulting",
+      "location": "Mumbai, India",
+      "role": "Data Science Analyst",
+      "start_date": "Sept 2023",
+      "end_date": "Apr 2025",
+      "bullets": [
+        "Increased efficiency by 30% by revamping a demand forecasting solution for a $11 Billion Brewing Company using AutoML (LightGBM and XGBoost), and performed feature attribution to identify key drivers and actionable distribution insights.",
+        "Reduced inventory wastage by 20% by redesigning a 5-year forward forecast using Linear ARIMA and Prophet models, providing critical insights at the provincial level for strategic planning and inventory management."
+      ]
+    },
+    {
+      "company": "Retail Pulse",
+      "location": "Bangalore, India",
+      "role": "Data Science Intern",
+      "start_date": "Aug 2022",
+      "end_date": "Dec 2022",
+      "bullets": [
+        "Brought 10% improvement in SKU detection accuracy for a global beverage company by addressing YOLOv5 limitations and training a customized YOLOv7 (state-of-the-art object detection model) model with optimized hyperparameters.",
+        "Utilized topic modeling to cluster unstructured Hindi text data into well-defined topics, creating a structured dataset that improved audience understanding and increased engagement by 15%."
+      ]
+    },
+    {
+      "company": "Nectorr Labs",
+      "location": "New Delhi, India",
+      "role": "Data Science Intern",
+      "start_date": "May 2020",
+      "end_date": "Jul 2020",
+      "bullets": [
+        "Collaborated with brand advertisers and management to identify needs and develop targeted campaigns using Twitter APIs, increasing positive sentiment and broadening customer base.",
+        "Developed a sophisticated Python analytics tool that processed 500,000+ Twitter data points, enabling precise audience segmentation and empowering the marketing team with actionable insights."
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "title": "Fast-dLLM v2 Inference Optimization",
+      "date": "Recent",
+      "description": "Implemented token-level compute skipping in Fast-dLLM v2 generation by caching prior-step hidden states and reusing outputs for \"stable\" masked tokens; evaluated on GSM8K, achieving ~24% FLOPs reduction (proxy) with only a small accuracy drop at the best threshold. Added layer-level skipping inside the decoder forward() loop with cosine-similarity stability gating and KV-cache safety; built instrumentation to explain the threshold \"cliff\" and produce accuracy-compute tradeoff curves.",
+      "technologies": [
+        "Token-level compute",
+        "Cosine-similarity stability gating",
+        "KV-cache"
+      ]
+    },
+    {
+      "title": "Feasibility of Lie Detection in the Metaverse",
+      "date": "Recent",
+      "description": "Achieved 87% model accuracy by engineering a multimodal ML pipeline combining eye-tracking and voice transcription features to detect deception in VR; results presented as a poster at IEEE VR 2025. Implemented perception studies and ethical audits to quantify user trust and fairness in AI-driven Metaverse experiences, informing UX guidelines for future VR platforms.",
+      "technologies": [
+        "Multimodal ML",
+        "Eye-tracking",
+        "Voice transcription"
+      ]
+    },
+    {
+      "title": "Covid Misinformation Spread",
+      "date": "Recent",
+      "description": "Analyzed the dissemination patterns of Covid misinformation across Twitter, processing data from 100,000+ tweets that informed a research paper, now under peer review, aimed at combating false narratives. Fine-tuned embeddings from Word2vec, Glove, Fasttext, and BERT for deep learning model classification. Implemented LDA for topic modeling and deployed Plutchik's transformer model for emotion detection in tweets.",
+      "technologies": [
+        "Word2vec",
+        "Glove",
+        "Fasttext",
+        "BERT",
+        "LDA",
+        "Plutchik’s transformer"
+      ]
+    }
+  ],
+  "skills": {
+    "programming_languages": [
+      "Python",
+      "Java",
+      "C/C++",
+      "HTML/CSS",
+      "MATLAB",
+      "SQL"
+    ],
+    "tools_and_frameworks": [
+      "Spark",
+      "Linux",
+      "GitHub",
+      "Django",
+      "MySQL",
+      "Databricks",
+      "Power BI",
+      "Tableau",
+      "Excel"
+    ],
+    "analytics_tools": [
+      "AutoML",
+      "LightGBM",
+      "XGBoost",
+      "YOLOv5",
+      "YOLOv7",
+      "Topic Modeling",
+      "Twitter APIs"
+    ],
+    "data_platforms": [
+      "Databricks",
+      "MySQL"
+    ],
+    "machine_learning": [
+      "Machine Learning",
+      "Deep Learning",
+      "AI-driven Solutions"
+    ]
+  },
+  "certifications": [],
+  "publications": [],
+  "leadership": []
+}
