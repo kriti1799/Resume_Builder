@@ -1,6 +1,7 @@
 import streamlit as st
 import requests
 from pathlib import Path
+from urllib.parse import urlsplit, urlunsplit
 
 API_URL = "http://localhost:8000"
 APP_DIR = Path(__file__).resolve().parent
@@ -18,6 +19,12 @@ if "target_job_url" not in st.session_state:
     st.session_state.target_job_url = ""
 if "upskill_agent" not in st.session_state:
     st.session_state.upskill_agent = None
+if "tailored_output_name" not in st.session_state:
+    st.session_state.tailored_output_name = None
+if "tailored_output_bytes" not in st.session_state:
+    st.session_state.tailored_output_bytes = None
+if "tailored_output_mime" not in st.session_state:
+    st.session_state.tailored_output_mime = None
 
 
 def safe_post_json(url, **kwargs):
@@ -38,6 +45,17 @@ def safe_post_json(url, **kwargs):
         st.error("Backend returned a non-JSON response.")
         st.error(f"Raw backend response: {res.text}")
         return None
+
+
+def normalize_job_url(raw_url: str) -> str:
+    """Normalize JD URLs by stripping query params while preserving fragments."""
+    u = (raw_url or "").strip()
+    if not u:
+        return ""
+    parts = urlsplit(u)
+    if parts.scheme in {"http", "https"} and parts.netloc:
+        return urlunsplit((parts.scheme, parts.netloc, parts.path, "", parts.fragment))
+    return u
 
 # ----- PAGE 0: Login ---
 
@@ -169,19 +187,35 @@ elif st.session_state.status == "chatting":
 elif st.session_state.status == "dashboard" or st.session_state.status == "completed":
     st.success("Your Master Candidate Profile is ready!")
     st.json(st.session_state.final_json)
- 
-    # --- UPDATE THIS BUTTON TO TRANSITION ---
-    if st.button("Tailor Resume for a Job (Workstream 2)"):
-        st.session_state.status = "tailoring"
-        st.rerun()
-    if st.button("Build Upskill Plan (Workstream 3)"):
-        if not st.session_state.get("target_job_url"):
-            st.warning("Please complete Workstream 2 first so we can use the job URL for upskilling.")
-        else:
-            st.session_state.status = "upskilling"
-            st.session_state.upskill_agent = None
-            st.rerun()
-    # ----------------------------------------
+
+    st.subheader("Target Job")
+    dashboard_raw_url = st.text_input(
+        "Job Description URL",
+        value=st.session_state.get("target_job_url", ""),
+        key="dashboard_job_url",
+    )
+    dashboard_job_url = normalize_job_url(dashboard_raw_url)
+    if dashboard_raw_url and dashboard_raw_url != dashboard_job_url:
+        st.caption(f"Using normalized URL: {dashboard_job_url}")
+    if dashboard_job_url:
+        st.session_state.target_job_url = dashboard_job_url
+
+    col_a, col_b = st.columns(2)
+    with col_a:
+        if st.button("Tailor Resume for a Job (Workstream 2)", use_container_width=True):
+            if not st.session_state.get("target_job_url"):
+                st.warning("Please enter a job URL first.")
+            else:
+                st.session_state.status = "tailoring"
+                st.rerun()
+    with col_b:
+        if st.button("Build Upskill Plan (Workstream 3)", use_container_width=True):
+            if not st.session_state.get("target_job_url"):
+                st.warning("Please enter a job URL first.")
+            else:
+                st.session_state.status = "upskilling"
+                st.session_state.upskill_agent = None
+                st.rerun()
         
     if st.button("Log Out"):
         st.session_state.clear()
@@ -193,7 +227,10 @@ elif st.session_state.status == "tailoring":
     st.subheader("Workstream 2: ATS Tailoring Engine 🎯")
     st.markdown("Paste a Job Description URL below. Our agent will analyze the role and rewrite your master profile to perfectly match the ATS requirements.")
     
-    job_url = st.text_input("Job Description URL:")
+    raw_job_url = st.text_input("Job Description URL:", value=st.session_state.get("target_job_url", ""))
+    job_url = normalize_job_url(raw_job_url)
+    if raw_job_url and raw_job_url != job_url:
+        st.caption(f"Using normalized URL: {job_url}")
     if job_url:
         st.session_state.target_job_url = job_url
     
@@ -228,24 +265,29 @@ elif st.session_state.status == "tailoring":
                         else:
                             st.warning("LaTeX generated successfully, but pdflatex is not installed. Download the .tex file.")
 
-                        # 4. Provide the Download Button
-                        with open(pdf_file_path, "rb") as pdf_data:
-                            st.download_button(
-                                label="⬇️ Download Tailored PDF" if is_pdf else "⬇️ Download Tailored .tex",
-                                data=pdf_data,
-                                file_name=pdf_file_path.name,
-                                mime="application/pdf" if is_pdf else "text/plain"
-                            )
-                        if st.button("Next: Build Upskill Plan", use_container_width=True):
-                            st.session_state.target_job_url = job_url
-                            st.session_state.status = "upskilling"
-                            st.session_state.upskill_agent = None
-                            st.rerun()
+                        with open(pdf_file_path, "rb") as f:
+                            st.session_state.tailored_output_bytes = f.read()
+                        st.session_state.tailored_output_name = pdf_file_path.name
+                        st.session_state.tailored_output_mime = "application/pdf" if is_pdf else "text/plain"
                     except Exception as e:
                         st.error(f"Failed to generate resume: {str(e)}")
             else:
                 st.warning("Please paste a Job Description URL first.")
                 
+        if st.session_state.tailored_output_bytes:
+            is_pdf = st.session_state.tailored_output_mime == "application/pdf"
+            st.download_button(
+                label="⬇️ Download Tailored PDF" if is_pdf else "⬇️ Download Tailored .tex",
+                data=st.session_state.tailored_output_bytes,
+                file_name=st.session_state.tailored_output_name,
+                mime=st.session_state.tailored_output_mime,
+                use_container_width=True,
+            )
+            if st.button("Next: Build Upskill Plan", use_container_width=True):
+                st.session_state.status = "upskilling"
+                st.session_state.upskill_agent = None
+                st.rerun()
+
     with col2:
         if st.button("Back to Dashboard", use_container_width=True):
             st.session_state.status = "dashboard"
@@ -254,13 +296,13 @@ elif st.session_state.status == "tailoring":
 # --- PAGE 6: Upskill Agent (Workstream 3) ---
 elif st.session_state.status == "upskilling":
     st.subheader("Workstream 3: Upskill Planning Agent 🚀")
-    st.caption("This uses your saved master profile + target job URL from tailoring.")
+    st.caption("This uses your saved master profile + target job URL.")
 
     if not st.session_state.get("final_json"):
         st.error("No master profile found. Please complete the interview flow first.")
         st.stop()
     if not st.session_state.get("target_job_url"):
-        st.error("No target job URL found. Please complete Workstream 2 first.")
+        st.error("No target job URL found. Please go back to dashboard and add one.")
         st.stop()
 
     if st.session_state.upskill_agent is None:

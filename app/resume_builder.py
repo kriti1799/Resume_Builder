@@ -75,6 +75,41 @@ def load_job_link(link_path: Path) -> str:
 
 
 def fetch_job_description(url: str) -> str:
+    def _render_with_playwright(target_url: str) -> str | None:
+        try:
+            from playwright.sync_api import sync_playwright
+        except ImportError:
+            return None
+
+        try:
+            with sync_playwright() as p:
+                browser = p.chromium.launch(headless=True)
+                page = browser.new_page()
+                page.goto(target_url, wait_until="domcontentloaded", timeout=45000)
+                page.wait_for_timeout(2500)
+                try:
+                    page.wait_for_load_state("networkidle", timeout=10000)
+                except Exception:
+                    pass
+
+                selectors = ["[data-job-description]", ".job-description", "article", "main", "body"]
+                for sel in selectors:
+                    try:
+                        el = page.query_selector(sel)
+                        if not el:
+                            continue
+                        txt = (el.inner_text() or "").strip()
+                        if len(txt) > 200:
+                            browser.close()
+                            return txt
+                    except Exception:
+                        continue
+
+                browser.close()
+        except Exception:
+            return None
+        return None
+
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/120.0.0.0"}
     try:
         if requests:
@@ -106,7 +141,11 @@ def fetch_job_description(url: str) -> str:
                     return t
         title = soup.find("title")
         if title and title.string:
-            return f"Job: {title.string.strip()}"
+            title_text = title.string.strip()
+            rendered = _render_with_playwright(url)
+            if rendered:
+                return rendered
+            return f"Job: {title_text}"
     else:
         scripts = re.findall(
             r"<script[^>]*type=['\"]application/ld\+json['\"][^>]*>(.*?)</script>",
@@ -133,8 +172,14 @@ def fetch_job_description(url: str) -> str:
 
         title_match = re.search(r"<title[^>]*>(.*?)</title>", raw_html, flags=re.IGNORECASE | re.DOTALL)
         if title_match:
+            rendered = _render_with_playwright(url)
+            if rendered:
+                return rendered
             return f"Job: {title_match.group(1).strip()}"
 
+    rendered = _render_with_playwright(url)
+    if rendered:
+        return rendered
     return "[Job page structure not recognized.]"
 
 
@@ -262,11 +307,14 @@ def compile_latex_to_pdf(tex_path: Path, output_dir: Path, jobname: str) -> tupl
             result = subprocess.run(
                 args, cwd=cwd, capture_output=True, timeout=120, text=True, encoding="utf-8", errors="replace"
             )
+            pdf_path = output_dir / f"{jobname}.pdf"
             if result.returncode != 0:
+                # pdflatex can return non-zero with warnings while still producing a usable PDF.
+                if pdf_path.exists() and pdf_path.stat().st_size > 500:
+                    continue
                 err = (result.stderr or result.stdout or "").strip()
                 last_lines = "\n".join(err.splitlines()[-40:]) if err else "No output"
                 return (None, f"pdflatex exit code {result.returncode}:\n{last_lines}")
-        pdf_path = output_dir / f"{jobname}.pdf"
         if pdf_path.exists() and pdf_path.stat().st_size > 500:
             return (pdf_path, "")
         return (None, "pdflatex ran but no PDF was produced.")
