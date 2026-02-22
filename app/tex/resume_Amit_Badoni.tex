@@ -1,10 +1,3 @@
-%-------------------------
-% Resume in Latex
-% Author : Jake Gutierrez
-% Based off of: https://github.com/sb2nov/resume
-% License : MIT
-%------------------------
-
 \documentclass[letterpaper,11pt]{article}
 
 \usepackage{latexsym}
@@ -19,34 +12,18 @@
 \usepackage{fancyhdr}
 \usepackage[english]{babel}
 \usepackage{tabularx}
-% \usepackage{fontawesome5}
 \usepackage{multicol}
 
 \setlength{\multicolsep}{-3.0pt}
 \setlength{\columnsep}{-1pt}
 \input{glyphtounicode}
 
-
-
-%----------FONT OPTIONS----------
-% sans-serif
-% \usepackage[sfdefault]{FiraSans}
-% \usepackage[sfdefault]{roboto}
-% \usepackage[sfdefault]{noto-sans}
-% \usepackage[default]{sourcesanspro}
-
-% serif
-% \usepackage{CormorantGaramond}
-% \usepackage{charter}
-
-
 \pagestyle{fancy}
-\fancyhf{} % clear all header and footer fields
+\fancyhf{}
 \fancyfoot{}
 \renewcommand{\headrulewidth}{0pt}
 \renewcommand{\footrulewidth}{0pt}
 
-% Adjust margins
 \addtolength{\oddsidemargin}{-0.6in}
 \addtolength{\evensidemargin}{-0.6in}
 \addtolength{\textwidth}{1.18in}
@@ -59,25 +36,15 @@
 \raggedright
 \setlength{\tabcolsep}{0in}
 
-% Sections formatting
 \titleformat{\section}{
   \vspace{-4pt}\scshape\raggedright\large\bfseries
 }{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
 
-% Ensure that generate pdf is machine readable/ATS parsable
 \pdfgentounicode=1
 
-%-------------------------
-% Custom commands
 \newcommand{\resumeItem}[1]{
   \item\small{
     {#1 \vspace{-2pt}}
-  }
-}
-
-\newcommand{\classesList}[4]{
-    \item\small{
-        {#1 #2 #3 #4 \vspace{-2pt}}
   }
 }
 
@@ -89,21 +56,12 @@
     \end{tabular*}\vspace{-7pt}
 }
 
-\newcommand{\resumeSubSubheading}[2]{
-    \item
-    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
-      \textit{\small#1} & \textit{\small #2} \\
-    \end{tabular*}\vspace{-7pt}
-}
-
 \newcommand{\resumeProjectHeading}[2]{
     \item
     \begin{tabular*}{1.001\textwidth}{l@{\extracolsep{\fill}}r}
       \small#1 & \textbf{\small #2}\\
     \end{tabular*}\vspace{-7pt}
 }
-
-\newcommand{\resumeSubItem}[1]{\resumeItem{#1}\vspace{-4pt}}
 
 \renewcommand\labelitemi{$\vcenter{\hbox{\tiny$\bullet$}}$}
 \renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
@@ -113,199 +71,84 @@
 \newcommand{\resumeItemListStart}{\begin{itemize}}
 \newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
 
-%-------------------------------------------
-%%%%%%  RESUME STARTS HERE  %%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
 \begin{document}
 
-%----------HEADING----------
-% \begin{tabular*}{\textwidth}{l@{\extracolsep{\fill}}r}
-%   \textbf{\href{http://sourabhbajaj.com/}{\Large Sourabh Bajaj}} & Email : \href{mailto:sourabh@sourabhbajaj.com}{sourabh@sourabhbajaj.com}\\
-%   \href{http://sourabhbajaj.com/}{http://www.sourabhbajaj.com} & Mobile : +1-123-456-7890 \\
-% \end{tabular*}
-
 \begin{center}
-    {\Huge \scshape Kriti Agrawal} \\ \vspace{1pt}
-    \small \raisebox{-0.2\height}\faMapMarker\ Atlanta, Georgia ~ \raisebox{-0.2\height}\faPhone\ (404)784-0915 ~ {\raisebox{-0.2\height}\faEnvelope\ {kagrawal74@gatech.edu}} ~ 
-    {\raisebox{-0.2\height}\faLinkedin\ {linkedin.com/in/kriti1799/}}  ~
-    % \href{https://github.com/kriti1799}{\raisebox{-0.2\height}\faGithub\ \underline{GitHub}}
-    \vspace{-12pt}
+    {\Huge \scshape Amit Badoni} \\ \vspace{1pt}
+    \small \href{mailto:amitbadoni1699@gmail.com}{amitbadoni1699@gmail.com} $|$ 
+    \href{https://linkedin.com/kriti1799}{linkedin.com/kriti1799} $|$
+    \href{https://github.com/kriti1799}{github.com/kriti1799} $|$
+    +1 470-301-3942 $|$ Atlanta, USA
 \end{center}
-\vspace{-5pt}
 
-%-----------EDUCATION-----------
 \section{Education}
   \resumeSubHeadingListStart
-
-\resumeSubheading
-      {Georgia Institute of Technology}{Aug 2025 - Dec 2026}
-      {Masters of Science: Computational Data Analytics}{Atlanta, Georgia}
-      \begin{itemize}[leftmargin=0.0in, label={}]
-      \small{\item{
-        \textbf{Relevant Coursework}{: Machine Learning, Deep Reinforcement Learning, Graphical Models in ML, Pricing Analytics and Revenue Management, Regression Analysis, Data Visualization, Analytics Modeling, Data Analysis for Business }}
-      % % }
-       \end{itemize}}
-      
-\vspace{-8pt}
-  
     \resumeSubheading
-      {Birla Institute of Technology \& Science, Pilani}{Aug 2018 - May 2023}
-      {Masters of Science: Mathematics, Bachelor of Technology: Electronics and Communication}{Goa, India}
-      \begin{itemize}[leftmargin=0.0in, label={}]
-      \small{\item{
-       \textbf{Relevant Coursework}{: Probability and Statistics, OOP, Computer Programming, Linear Algebra,  Graphs \& Networks, Data Science Methodology, Deep Learning, Introduction to LLMs, Linear Optimization, Number Theory, Mathematical Modelling }}
-      }
-       \end{itemize}
-      
+      {Georgia Institute of Technology}{Atlanta, USA}
+      {Master of Science in Analytics}{December 2026}
+    \resumeSubheading
+      {Indian Institute of Technology Kanpur}{Kanpur, India}
+      {B.Tech. \& M.Tech. (Dual Degree) in Chemical Engineering}{July 2022}
+      \small{\textbf{GPA:} M.Tech. 10/10, B.Tech. 8.5/10}
   \resumeSubHeadingListEnd
-\vspace{-17pt}
 
-%-----------PROGRAMMING SKILLS-----------
-\section{Technical Skills}
- \begin{itemize}[leftmargin=0.0in, label={}]
-    \small{\item{
-     \textbf{Programming}{: Python, Java, C/C++, HTML/CSS, MATLAB, SQL} \\
-     \textbf{Frameworks/Data Tools}{: Spark, Linux,  GitHub, Django, MySQL, Databricks, Power BI, Tableau, Excel} \\
-    \textbf{Libraries}{: Scikit-learn, TextBlob, SpaCy, Beautiful Soup, Selenium, MiniSom, SHAP, LightGBM, XGBoost, Pytorch}}}\\
-    \textbf{ML and Data Science}{: Supervised/Unsupervised Learning, Time Series Forecasting, Feature Engineering, LLMs, Transformers, Prompt Engineering, Embeddings, Explainable AI (SHAP), NLP, ML Pipelines, Model Deployment }}}\\
-    
- \end{itemize}
- \vspace{-19pt}
+\section{Work Experience}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {Smartworks Coworking Spaces}{Gurgaon, India}
+      {Founder's Office Intern \textendash Strategic Initiatives \& Innovation}{April 2025 - June 2025}
+      \resumeItemListStart
+        \resumeItem{Directed a CRM AI agent pilot utilizing LLM-generated natural language to SQL conversion for real-time metric access.}
+        \resumeItem{Initiated AI SaaS tools for design and HR processes, achieving 30\% \& 80\% respective reductions in turnaround time.}
+        \resumeItem{Engineered an automated pipeline to convert raw attendance data into Power BI dashboards and REST API-triggered WhatsApp alerts, reducing manpower shortage resolution time by 25\%.}
+      \resumeItemListEnd
 
-%-----------EXPERIENCE-----------
-\section{Experience}
-  \vspace{-2 mm}
+    \resumeSubheading
+      {Rocket Learning}{Bangalore, India}
+      {Data Product Manager}{March 2024 - April 2025}
+      \resumeItemListStart
+        \resumeItem{Constructed Power BI dashboards leveraging SQL on millions of user-event records to oversee 10+ features and resolved 50+ developer issues.}
+        \resumeItem{Deployed a WhatsApp-based RAG AI agent for education workers, creating dashboards in Looker Studio via Google BigQuery SQL queries, with 3,000+ users onboarded and reaching 10\% DAU in 2 months.}
+        \resumeItem{Collaborated with data engineers to architect ETL pipelines for AWS Redshift transition orchestrated by Airflow; automated 100+ metrics for A/B testing and reporting with SQL, resulting in a 15\% experiment uplift.}
+      \resumeItemListEnd
+
+    \resumeSubheading
+      {McKinsey \& Company}{Mumbai, India}
+      {Business Analyst - 2}{September 2022 - March 2024}
+      \resumeItemListStart
+        \resumeItem{Achieved 2\% reduction in coal consumption for an energy client by implementing a CART model to optimize process parameters.}
+        \resumeItem{Contributed to a GenAI impact report for NASSCOM; aggregated insights from internal pilots and over 15 CxO interviews.}
+        \resumeItem{Generated a \$1M EBITDA pipeline for an auto supplier; coordinated with 15+ stakeholders and delivered 40\% in value.}
+      \resumeItemListEnd
+  \resumeSubHeadingListEnd
+
+\section{Projects}
   \resumeSubHeadingListStart
     \resumeProjectHeading
-          {\textbf{Accenture Strategy and Consulting} $|$ {Data Science Analyst}}
-        {{\normalfont\itshape Mumbai, India \textbullet\ Sept 2023 - Apr 2025}}
-    \vspace{-5 mm}
-   \resumeItemListStart
-   \resumeItem{Increased efficiency 30\% by revamping a demand forecasting solution for a \$11 Billion Brewing Company using AutoML (LightGBM and XGBoost), and performed feature attribution to identify key drivers and actionable distribution insights} \vspace{-4 mm}
-    \resumeItem{Reduced inventory wastage 20\% by redesigning a 5-year forward forecast using Linear ARIMA and Prophet models, providing critical insights at the provincial level for strategic planning and inventory management}
-
-       \resumeItemListEnd
-
-
-  \vspace{-6 mm}
-   \resumeProjectHeading
-    {\textbf{Retail Pulse} $|$ {Data Science Intern}}
-  {{\normalfont\itshape Bangalore, India \textbullet\ Aug 2022 - Dec 2022}}
-    \vspace{-5 mm}
+      {Interpretable Machine Learning for U.S. Life Expectancy (County-Level Analysis)}{}
       \resumeItemListStart
-      \resumeItem{Brought 10\% improvement in SKU detection accuracy for a global beverage company by addressing YOLOv5 limitations and training a customized YOLOv7 (state-of-the-art object detection model) model with optimized hyperparameters }
-      \resumeItem{Utilized topic modeling to cluster unstructured Hindi text data into well-defined topics, creating a structured dataset that improved audience understanding and increased engagement by 15\% }
-      
-    \resumeItemListEnd
-  \vspace{-6 mm}
-       \resumeProjectHeading
-        {\textbf{Nectorr Labs} $|$ {Data Science Intern}}
-  {{\normalfont\itshape New Delhi, India \textbullet\ May 2020 - Jul 2020}}
-    \vspace{-5 mm}
+        \resumeItem{Integrated multi-source public health datasets from various sources to create a robust modeling dataset. Applied supervised and unsupervised learning techniques achieving MAE \textasciitilde 1.3 years and R\textsuperscript{2} \textasciitilde 0.7 under k-fold cross validation. Deployed model outputs in an interactive dashboard showcasing predicted life expectancy and key contributing factors across U.S. counties.}
+      \resumeItemListEnd
+
+    \resumeProjectHeading
+      {Semantic Segmentation using PSPNet with ResNet Backbone}{}
       \resumeItemListStart
-       \resumeItem{Collaborated with brand advertisers and management to identify needs and develop targeted campaigns using Twitter APIs, increasing positive sentiment and broadening customer base}
-        \resumeItem{Developed a sophisticated Python analytics tool that processed 500,000+ Twitter data points, enabling precise audience segmentation and empowering the marketing team with actionable insights}
-      \
-    \resumeItemListEnd
+        \resumeItem{Executed a PSPNet-based semantic segmentation model using a ResNet-50 backbone in PyTorch, integrating dilated convolutions and pyramid pooling. Achieved \textasciitilde56\% mean IoU on the CamVid dataset, improved to \textasciitilde63-65\% after fine-tuning.}
+      \resumeItemListEnd
 
-
-
-    
+    \resumeProjectHeading
+      {Automated Job Application Tracker}{}
+      \resumeItemListStart
+        \resumeItem{Engineered a workflow using LangChain with OAuth2 and Google Sheets API to streamline job application tracking, enhancing structured extraction, classification, and state updates.}
+      \resumeItemListEnd
   \resumeSubHeadingListEnd
-\vspace{-15pt}
 
-%-----------PROJECTS-----------
-\section{Projects}
-    \vspace{-5pt}
-    \resumeSubHeadingListStart
-
-    \resumeProjectHeading
-          {\textbf{Fast-dLLM v2 Inference Optimization} $|$ \emph{PyTorch, LLMs, Systems} $|$ \href{https://github.com/kriti1799/Fast-dLLM/tree/token-skip}{\raisebox{-0.2\height}\ \underline{\color{blue}Link}}}  
-        {\normalfont\itshape January 2025}
-          \resumeItemListStart
-              \resumeItem{Implemented token-level compute skipping in Fast-dLLM v2 generation by caching prior-step hidden states and reusing outputs for “stable” masked tokens; evaluated on GSM8K, achieving $\sim$24\% FLOPs reduction (proxy) with only a small accuracy drop at the best threshold}
-      \resumeItem{Added layer-level skipping inside the decoder forward() loop with cosine-similarity stability gating and KV-cache safety; built instrumentation to explain the threshold “cliff” and produce accuracy–compute tradeoff curves}
-          \resumeItemListEnd
-           \vspace{-16pt}
-% \resumeProjectHeading
-%      {\textbf{Clean Labelling} $|$ \emph{Random Forest, Clustering }}
-%         {\normalfont\itshape Aug 2025 - Present}
-%         \vspace{-15pt}
-%           \resumeItemListStart
-%       \resumeItem{Train classification models on Open Food Facts, ensuring accurate mapping of complex ingredient terms to consumer-friendly nutrition insights}
-%        \resumeItem{Develop a hybrid ML pipeline combining supervised and unsupervised learning to further interpret food ingredient labels, using NER and clustering techniques detecting hidden allergens, additives, and dietary components}
-
-        
-%           \resumeItemListEnd
-%           \vspace{-15pt}
-
-    \resumeProjectHeading
-          {\textbf{Feasibility of Lie Detection in the Metaverse} $|$ \emph{Transfer Learning, ML }}
-        {\normalfont\itshape Jul 2023 - Sept 2024}
-          \resumeItemListStart
-              \resumeItem{Achieved 87\% model accuracy by engineering a multimodal ML pipeline combining eye-tracking and voice transcription features to detect deception in VR; results presented as a poster at IEEE VR 2025}
-      \resumeItem{Implemented perception studies and ethical audits to quantify user trust and fairness in AI-driven Metaverse experiences, informing UX guidelines for future VR platforms}
-
-        
-          \resumeItemListEnd
-          \vspace{-15pt}
-
-
-      \resumeProjectHeading
-          {\textbf{Covid Misinformation Spread} $|$ \emph{Deep Learning, Transformers, Topic Modelling}  $|$ 
-    \href{https://arxiv.org/abs/2306.13954}{\raisebox{-0.2\height}\ \underline{\color{blue}Link}}}
-      {\normalfont\itshape Sept 2022 - Jul 2023}
-          \resumeItemListStart
-              \resumeItem{Analyzed the dissemination patterns of Covid misinformation across Twitter, processing data from 100,000+ tweets that informed a research paper, now under peer review, aimed at combating false narratives}
-      \resumeItem{Fine-tuned embeddings from Word2vec, Glove, Fasttext, and BERT for deep learning model classification}
-    \resumeItem{Implemented LDA for topic modeling and deployed Plutchik’s transformer model for emotion detection in tweets}
-        
-          \resumeItemListEnd
-          % \vspace{-5pt}
-          
-      %          \resumeProjectHeading
-      %     {\textbf{Image Encryption using Chaotic Cryptography} $|$ \emph{Python, Numpy, Pandas, Matplotlib}}{\normalfont\itshape Sept 2021}
-      %     \resumeItemListStart
-      %       \resumeItem{Created an image encryption system using Chaotic Logistic Maps and Python, effectively encrypting and decrypting grayscale images with a user-friendly interface}
-      %       \resumeItem{Applied cryptography principles from academic coursework to ensure high data security and privacy in the model}
-      %     \resumeItemListEnd 
-      % \vspace{-15pt}
-          % \resumeProjectHeading
-          % {\textbf{Microsoft Teams Clone} $|$ \emph{Python, HTML, CSS, JavaScript, Django} $|$ \href{https://github.com/kriti1799/Video-Con}{\textcolor{blue}{\underline{Source Code}}}}{\normalfont\itshape Jun 2021}
-          % \resumeItemListStart
-          %   \resumeItem{Qualified for Microsoft’s mentorship program (2\% acceptance rate) and achieved a 95\% project completion rate by developing a Microsoft Teams Clone with video and chat features using Agile Methodology}
-          %   \resumeItem{Integrated Twilio APIs for text and video calls, built the application with HTML, CSS, JS, and Django, and hosted it on Heroku, ensuring a user-friendly interface and reliable performance} 
-%           \resumeItemListEnd 
-            
-
-  
-          
-    \resumeSubHeadingListEnd
-\vspace{-15pt}
-
-
-%
-
-
-%-----------INVOLVEMENT---------------
-\section{Leadership / Extracurricular Activities}
-\vspace{-6pt}
-    \resumeSubHeadingListStart
-    \resumeProjectHeading
-          {\textbf{AnitaB.org} $|$ {Chapter Lead}}{\normalfont\itshape Aug 2024 - May 2025}
-          \resumeItemListStart
-            \resumeItem{Spearheaded the growth of the AnitaB.org Mumbai Chapter by creating a community of 50+ women in STEM, orchestrating meetups, workshops, and talks to amplify peer learning and foster inclusive tech leadership}
-         \resumeItemListEnd 
-\vspace{-17pt}
-%     \resumeProjectHeading
-%           {\textbf{Nirmaan Organization} $|$ {Project Lead}}{\normalfont\itshape Apr 2019 - Mar 2020}
-%           \resumeItemListStart
-%             \resumeItem{Led 15+ volunteers in the "Shiksha" initiative of Nirmaan, helping underprivileged students prepare for government exams, resulting in 3 students qualifying for fully funded boarding schools, and conducted IT and banking awareness sessions for local communities}
-%          \resumeItemListEnd 
-% \vspace{-15pt}
-        
-        \resumeSubHeadingListEnd
-
+\section{Skills}
+  \resumeSubHeadingListStart
+    \resumeItemListStart
+      \resumeItem{\textbf{Technical Skills:} Python, SQL, Machine Learning, Data Analysis}
+      \resumeItem{\textbf{Tools:} Power BI, Looker Studio, Google BigQuery, AWS Redshift, Airflow, PyTorch}
+    \resumeItemListEnd
+  \resumeSubHeadingListEnd
 
 \end{document}

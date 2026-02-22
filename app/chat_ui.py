@@ -14,6 +14,10 @@ if "messages" not in st.session_state:
     st.session_state.messages = []
 if "thread_id" not in st.session_state:
     st.session_state.thread_id = None
+if "target_job_url" not in st.session_state:
+    st.session_state.target_job_url = ""
+if "upskill_agent" not in st.session_state:
+    st.session_state.upskill_agent = None
 
 
 def safe_post_json(url, **kwargs):
@@ -52,8 +56,12 @@ if st.session_state.status == "login":
 
             st.session_state.thread_id = email
             if response["status"] == "existing_user":
-                st.session_state.final_json = response["parsed_data"]
-                st.session_state.status = "dashboard" 
+                if response.get("has_saved_master"):
+                    st.session_state.final_json = response["parsed_data"]
+                    st.session_state.status = "dashboard"
+                else:
+                    st.info("No completed master resume found yet. Please upload your resume to start the interview.")
+                    st.session_state.status = "upload"
                 st.rerun()
             else:
                 st.success(response["message"])
@@ -166,6 +174,13 @@ elif st.session_state.status == "dashboard" or st.session_state.status == "compl
     if st.button("Tailor Resume for a Job (Workstream 2)"):
         st.session_state.status = "tailoring"
         st.rerun()
+    if st.button("Build Upskill Plan (Workstream 3)"):
+        if not st.session_state.get("target_job_url"):
+            st.warning("Please complete Workstream 2 first so we can use the job URL for upskilling.")
+        else:
+            st.session_state.status = "upskilling"
+            st.session_state.upskill_agent = None
+            st.rerun()
     # ----------------------------------------
         
     if st.button("Log Out"):
@@ -179,6 +194,8 @@ elif st.session_state.status == "tailoring":
     st.markdown("Paste a Job Description URL below. Our agent will analyze the role and rewrite your master profile to perfectly match the ATS requirements.")
     
     job_url = st.text_input("Job Description URL:")
+    if job_url:
+        st.session_state.target_job_url = job_url
     
     col1, col2 = st.columns([1, 1])
     with col1:
@@ -219,11 +236,90 @@ elif st.session_state.status == "tailoring":
                                 file_name=pdf_file_path.name,
                                 mime="application/pdf" if is_pdf else "text/plain"
                             )
+                        if st.button("Next: Build Upskill Plan", use_container_width=True):
+                            st.session_state.target_job_url = job_url
+                            st.session_state.status = "upskilling"
+                            st.session_state.upskill_agent = None
+                            st.rerun()
                     except Exception as e:
                         st.error(f"Failed to generate resume: {str(e)}")
             else:
                 st.warning("Please paste a Job Description URL first.")
                 
+    with col2:
+        if st.button("Back to Dashboard", use_container_width=True):
+            st.session_state.status = "dashboard"
+            st.rerun()
+
+# --- PAGE 6: Upskill Agent (Workstream 3) ---
+elif st.session_state.status == "upskilling":
+    st.subheader("Workstream 3: Upskill Planning Agent 🚀")
+    st.caption("This uses your saved master profile + target job URL from tailoring.")
+
+    if not st.session_state.get("final_json"):
+        st.error("No master profile found. Please complete the interview flow first.")
+        st.stop()
+    if not st.session_state.get("target_job_url"):
+        st.error("No target job URL found. Please complete Workstream 2 first.")
+        st.stop()
+
+    if st.session_state.upskill_agent is None:
+        try:
+            import os
+            import resume_builder
+            from upskill_llm import LLMClient
+            from upskill_agent import UpskillAgent
+
+            jd_url = st.session_state.target_job_url
+            jd_text = resume_builder.fetch_job_description(jd_url) if jd_url.startswith("http") else jd_url
+            provider = os.environ.get("UPSKILL_LLM_PROVIDER", "openai")
+            llm = LLMClient(provider=provider)
+            agent = UpskillAgent(llm)
+            agent.start(st.session_state.final_json, jd_text)
+            st.session_state.upskill_agent = agent
+        except Exception as e:
+            st.error(f"Failed to initialize upskill agent: {e}")
+            st.stop()
+
+    agent = st.session_state.upskill_agent
+    context = agent.context
+    current_stage = context.get("current_stage", "")
+
+    for msg in context.get("conversation", []):
+        role = "assistant" if msg["speaker"] == "agent" else "user"
+        with st.chat_message(role):
+            st.markdown(msg["text"])
+
+    if plan := context.get("plan"):
+        st.markdown("### Current Plan")
+        st.markdown(plan)
+
+    if user_msg := st.chat_input("Respond to continue building/refining your plan..."):
+        if current_stage == "target_job_confirmation":
+            agent.handle_user_response(user_msg)
+        elif current_stage == "follow_ups":
+            agent.handle_followup_response(user_msg)
+        else:
+            agent.refine_plan(user_msg)
+        st.rerun()
+
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("Save Plan", use_container_width=True):
+            try:
+                from pathlib import Path
+                import re
+
+                name = (
+                    (st.session_state.final_json.get("personal_info") or {}).get("name")
+                    or "candidate"
+                )
+                safe = re.sub(r"[^\w\s-]", "", str(name)).replace(" ", "_")
+                out_path = Path.cwd() / f"upskill_plan_{safe}.md"
+                out_path.write_text(context.get("plan", ""), encoding="utf-8")
+                st.success(f"Saved to {out_path.name}")
+            except Exception as e:
+                st.error(f"Could not save plan: {e}")
     with col2:
         if st.button("Back to Dashboard", use_container_width=True):
             st.session_state.status = "dashboard"

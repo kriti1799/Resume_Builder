@@ -19,7 +19,8 @@ class LoginRequest(BaseModel):
 @app.post("/process-documents/")
 async def process_documents(
     email: str = Form(...),
-    resume: UploadFile = File(...)
+    resume: UploadFile = File(...),
+    db: Session = Depends(get_db)
 ):
     
     resume_bytes = await resume.read()
@@ -55,7 +56,13 @@ async def process_documents(
             "thread_id": email
         }
 
-    extracted_json = state.values.get("extracted_data") # Or state.values.get for the first endpoint
+    extracted_json = state.values.get("extracted_data") or {}
+
+    # Save only final profile (no draft/resumability behavior).
+    user = db.query(models.CandidateProfile).filter(models.CandidateProfile.email == email).first()
+    if user:
+        user.parsed_data = extracted_json
+        db.commit()
 
     # --- NEW: Save the JSON to a file for your teammates ---
     with open("master_candidate_profile.json", "w") as f:
@@ -63,7 +70,7 @@ async def process_documents(
     # If no questions, it finished completely on the first try!
     return {
         "status": "completed",
-        "parsed_data": state.values.get("extracted_data")
+        "parsed_data": extracted_json
     }
 
 # --- Pydantic Schema for the second endpoint ---
@@ -150,11 +157,13 @@ def authenticate_user(req: LoginRequest, db: Session = Depends(get_db)):
     profile = db.query(models.CandidateProfile).filter(models.CandidateProfile.email == req.email).first()
     
     if profile:
+        has_saved_master = bool(profile.parsed_data)
         # Returning user! Send back their saved JSON.
         return {
             "status": "existing_user",
             "message": f"Welcome back, {profile.name}!",
-            "parsed_data": profile.parsed_data
+            "has_saved_master": has_saved_master,
+            "parsed_data": profile.parsed_data if has_saved_master else {}
         }
     
     # 2. New user! Create a blank profile in the database.

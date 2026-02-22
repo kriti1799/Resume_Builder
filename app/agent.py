@@ -38,6 +38,7 @@ def process_resume_node(state: AgentState):
          3. If the user asks a clarifying question (e.g., "Do you mean X or Y?"), YOU MUST ANSWER IT before asking your next question.
          4.  Acknowledge and validate their previous answer (e.g., "That's a great example of leadership. Now..."). 
          5. NEVER robotically repeat the same question if the user is asking for clarification.
+         6. If the resume text includes an 'Extracted Links' section, use those URLs to populate personal_info.linkedin, personal_info.github, and personal_info.portfolio when applicable.
         
         Look for these holistic gaps:
         1. QUANTIFIABLE IMPACT: If they list a duty (e.g., "built a dashboard"), you MUST ask for the business impact or metrics (e.g., "How many users used it?" or "Did it save time/money?").
