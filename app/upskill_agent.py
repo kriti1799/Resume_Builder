@@ -13,10 +13,10 @@ class UpskillAgent:
             "profile": profile or {},
             "target_jd": target_jd or "",
             "conversation": [],
-            "current_stage": "target_job_confirmation",
+            "current_stage": "follow_ups",
             "plan": "",
         }
-        self._ask_target_job_confirmation()
+        self._ask_follow_ups()
         return self.context
 
     def _add_message(self, speaker: str, text: str):
